@@ -13,7 +13,7 @@ class _ProfileControllerState extends State<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text("Profile!",
+        title: Text("Profile",
         style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
     ),
     )
