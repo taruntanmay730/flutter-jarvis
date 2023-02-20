@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "22.0.0"
+  alt_sms_autofill:
+    dependency: "direct dev"
+    description:
+      name: alt_sms_autofill
+      sha256: "638999204626ee3dff0bdb3576646413565422736abd66a54bf7e0cc87df8860"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   analyzer:
     dependency: transitive
     description:
@@ -424,14 +432,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sms_otp_auto_verify:
-    dependency: "direct dev"
-    description:
-      name: sms_otp_auto_verify
-      sha256: "7c7fa9c7f08f60b34e9ba683796899b13c889a68d074b5ed91db9ab72f9b1355"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   source_gen:
     dependency: transitive
     description:
@@ -546,4 +546,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.2 <3.0.0"
-  flutter: ">=1.12.0"
+  flutter: ">=1.20.0"
