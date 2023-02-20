@@ -9,7 +9,7 @@ import 'package:jarvis/login/responses/OTPResponse.dart';
 import 'common/network/model/DioClient.dart';
 import 'common/network/resources/HttpErrors.dart';
 import 'common/network/responses/HttpResponse.dart';
-import 'package:alt_sms_autofill/alt_sms_autofill.dart';
+
 
 
 void main() => runApp(const MyApp());
@@ -47,39 +47,6 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController phoneController = TextEditingController();
   OTPResponse? otpResponse;
-  String _commingSms = 'Unknown';
-
-  String _otpCode = "";
-  final intRegex = RegExp(r'\d+', multiLine: true);
-
-
-  @override
-  void dispose() {
-    AltSmsAutofill().unregisterListener();
-    super.dispose();
-  }
-
-
-  void getAppSignature() async {
-    String? commingSms;
-    try {
-      commingSms = await AltSmsAutofill().listenForSms;
-
-    } on PlatformException {
-      commingSms = 'Failed to get Sms.';
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _commingSms = commingSms!;
-    });
-    print("commingSms $_commingSms");
-  }
-
-  void smsRetriever() async {
-    getAppSignature();
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +83,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       ));
                     }else{
                       sendOTP(id: phoneController.text);
-                      smsRetriever();
                     }
                   },
                 )

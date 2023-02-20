@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jarvis/Trips/TripsController.dart';
 
 import '../Account/ProfileController.dart';
+import 'DashboardController.dart';
 
 class HomeController extends StatefulWidget {
   const HomeController({Key? key}) : super(key: key);
@@ -11,27 +12,20 @@ class HomeController extends StatefulWidget {
 }
 
 class _HomeControllerState extends State<HomeController> {
-  int _selectedIndex = 0;
-  PageController _pageController = PageController();
+  int _selectedIndex = 1;
 
   //List of screen
-  List<Widget> _screens = [
-    HomeController(),
-    ProfileController(),
-    TripsController()
+  List<Widget> _screens = <Widget>[
+    DashboardController(),
+    TripsController(),
+    ProfileController()
   ];
 
-  void _onPageChanged(int index){
+  void _onItemTap(int index){
     setState(() {
       _selectedIndex = index;
     });
   }
-
-  void _onItemTapped(int index){
-    _pageController.jumpToPage(index);
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +35,11 @@ class _HomeControllerState extends State<HomeController> {
           style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
         ),
       ),
-      body: _screens[_selectedIndex],
-      // body: PageView(
-      //   controller: _pageController,
-      //   children: _screens,
-      //   onPageChanged: _onPageChanged,
-      //   physics: NeverScrollableScrollPhysics(),
-      // ),
+      body: _screens.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTap,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -68,12 +57,6 @@ class _HomeControllerState extends State<HomeController> {
               label: "Account"
           ),
         ],
-        onTap: (index){
-          setState(() {
-            _onItemTapped(index);
-            _selectedIndex  = index;
-          });
-        },
       ),
     );
   }
