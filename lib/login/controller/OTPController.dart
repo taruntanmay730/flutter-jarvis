@@ -36,6 +36,7 @@ class _OTPControllerState extends State<OTPController> {
   String _commingSms = 'Unknown';
 
   String otp = "";
+
   String _otpCode = "";
   final intRegex = RegExp(r'\d+', multiLine: true);
 
