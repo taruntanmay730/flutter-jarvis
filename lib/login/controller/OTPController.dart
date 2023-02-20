@@ -13,7 +13,7 @@ import '../../common/network/model/DioClient.dart';
 import '../../common/network/resources/HttpErrors.dart';
 import '../responses/OTPResponse.dart';
 import '../../common/network/responses/HttpResponse.dart';
-import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
+
 
 class OTPController extends StatefulWidget {
   final String phNumber;
@@ -33,16 +33,6 @@ class _OTPControllerState extends State<OTPController> {
   OTPResponse? otpResponse;
   LoginResponse? loginResponse;
   String otp = "";
-  String _otpCode = "";
-  final intRegex = RegExp(r'\d+', multiLine: true);
-
-  @override
-  void initState() {
-    print("inside init state");
-    print("post inside init state");
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
