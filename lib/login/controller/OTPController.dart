@@ -10,7 +10,6 @@ import 'package:jarvis/analytics/AnalyticsService.dart';
 import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/login/responses/LoginResponse.dart';
 
-//import '../../network/model/DioClient.dart';
 import '../../common/network/model/DioClient.dart';
 import '../../common/network/resources/HttpErrors.dart';
 import '../responses/OTPResponse.dart';
@@ -38,7 +37,6 @@ class _OTPControllerState extends State<OTPController> {
   String _commingSms = 'Unknown';
 
   String otp = "";
-
   String _otpCode = "";
   final intRegex = RegExp(r'\d+', multiLine: true);
 
@@ -72,6 +70,10 @@ class _OTPControllerState extends State<OTPController> {
   @override
   void initState() {
     super.initState();
+    firstOtpController.text = "";
+    secondOtpController.text = "";
+    thirdOtpController.text = "";
+    forthController.text = "";
     getOTP();
   }
 
@@ -283,12 +285,14 @@ class _OTPControllerState extends State<OTPController> {
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        otpResponse = HttpResponse.getResponse(e.response);
-      } else {
-        // Error due to setting up or sending the request
-        otpResponse = HttpResponse.getResponse(e.response);
-      }
+      // if (e.response != null) {
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // } else {
+      //   // Error due to setting up or sending the request
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // }
+      otpResponse = HttpResponse.getResponse(e.response);
+
     } on SocketException{
       throw FetchDataException('No Internet connection');
     }
@@ -302,15 +306,18 @@ class _OTPControllerState extends State<OTPController> {
       String? message = otpResponse?.data.message as String;
       print("OTP send status: $message");
       otp = "";
+
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        otpResponse = HttpResponse.getResponse(e.response);
-      } else {
-        // Error due to setting up or sending the request
-        otpResponse = HttpResponse.getResponse(e.response);
-      }
+      // if (e.response != null) {
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // } else {
+      //   // Error due to setting up or sending the request
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // }
+      otpResponse = HttpResponse.getResponse(e.response);
+
     } on SocketException{
       throw FetchDataException('No Internet connection');
     }
