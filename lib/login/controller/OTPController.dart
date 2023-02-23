@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jarvis/Home/HomeController.dart';
+import 'package:jarvis/analytics/AnalyticsService.dart';
+import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/login/responses/LoginResponse.dart';
 
 //import '../../network/model/DioClient.dart';
@@ -65,7 +67,6 @@ class _OTPControllerState extends State<OTPController> {
     secondOtpController.text = otpSplit[1];
     thirdOtpController.text = otpSplit[2];
     forthController.text = otpSplit[3];
-    print("commingSms $_commingSms and code: $_otpCode and otp-split: $otpSplit");
   }
 
   @override
@@ -270,11 +271,12 @@ class _OTPControllerState extends State<OTPController> {
     try {
       Response userData = await DioClient.dio.post(apiUrl, options: Options(headers: DioClient.requestHeader), data: jsonEncode(data));
       var respData = userData.data.toString();
-      print("login response received: $respData");
       loginResponse = LoginResponse.fromJson(userData.data as Map<String, dynamic>);
-      print("login response: $respData");
+      print("login response: $respData and token: $respData");
 
       if (respData != null){
+        LoginHelper.instance.saveLoginObject(respData!);
+        AnalyticsService("Test_Tarun_Event",loginResponse?.data?.toJson()).sendEvent();
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
             HomeController()), (Route<dynamic> route) => false);
       }

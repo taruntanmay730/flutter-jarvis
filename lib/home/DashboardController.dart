@@ -16,7 +16,8 @@ class _DashboardControllerState extends State<DashboardController> {
           title: Text("Dashboard!",
             style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
           ),
-        )
+        ),
+      body: Text("Dashboard"),
     );
   }
 }

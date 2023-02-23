@@ -1,9 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:jarvis/login/responses/OTPResponse.dart';
-import 'package:jarvis/common/network/responses/HttpResponse.dart';
 import 'dart:io';
 
-import '../resources/HttpErrors.dart';
 
 class DioClient {
 

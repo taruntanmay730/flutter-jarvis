@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/login/controller/OTPController.dart';
 import 'package:jarvis/login/responses/OTPResponse.dart';
 
+import 'Home/HomeController.dart';
 import 'common/network/model/DioClient.dart';
 import 'common/network/resources/HttpErrors.dart';
 import 'common/network/responses/HttpResponse.dart';
@@ -48,6 +50,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController phoneController = TextEditingController();
   OTPResponse? otpResponse;
 
+@override
+  void initState() {
+    checkLoginStatus();
+    super.initState();
+}
+
+  Future<void> checkLoginStatus() async {
+    if (await LoginHelper.instance.isLoggedin()){
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          HomeController()), (Route<dynamic> route) => false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

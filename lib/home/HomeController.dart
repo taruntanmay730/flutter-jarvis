@@ -30,11 +30,6 @@ class _HomeControllerState extends State<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Welcome to Jarvis World!",
-          style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
-        ),
-      ),
       body: _screens.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
