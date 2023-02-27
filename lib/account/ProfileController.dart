@@ -1,12 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-
-import '../common/Storage/LoginHelper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jarvis/common/Storage/LoginHelper.dart';
+import 'package:jarvis/main.dart';
 
 class ProfileController extends StatefulWidget {
   const ProfileController({Key? key}) : super(key: key);
@@ -18,42 +15,44 @@ class ProfileController extends StatefulWidget {
 class _ProfileControllerState extends State<ProfileController> {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, height: 896, width: 414, allowFontScaling: true);
+    final User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("My Profile",
           style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
         ),
-      ),
-
-
-      body: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Stack(
-                children: const [
-                  SizedBox(
-                    child: CircleAvatar(
-                      radius: 12,
-                      backgroundImage: AssetImage('lib/assets/avatar.png'),
-                    ),
-                  ),
-                  SizedBox(
-                    child: Icon(
-                      LineAwesomeIcons.pen,
-                      color: Colors.black26,
-                      size: 32,
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
+        actions: [
+          ElevatedButton(onPressed: (){
+            logoutListner();
+          },child: Text("Logout", style: TextStyle(color: Colors.white70, fontSize: 18, fontWeight: FontWeight.bold)))
         ],
       ),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(user?.photoURL! ?? ""),
+            ),
+            SizedBox(height: 8),
+            Text("Hello, " + (user?.displayName! ?? "User"), style: TextStyle(color: Colors.green, fontSize: 16)),
+          ],
+        ),
+      ),
     );
+  }
+
+  Future<void> logoutListner() async {
+    bool logout = await LoginHelper.logOut();
+    if (logout == true){
+      print("logged out successfully!");
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+      const MyApp()), (Route<dynamic> route) => false);
+    }else{
+      print("Failed to logout!");
+    }
   }
 }

@@ -278,7 +278,7 @@ class _OTPControllerState extends State<OTPController> {
 
       if (respData != null){
         LoginHelper.instance.saveLoginObject(respData!);
-        AnalyticsService("Test_Tarun_Event",loginResponse?.data?.toJson()).sendEvent();
+        AnalyticsService("Test_Tarun_Event");
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
             HomeController()), (Route<dynamic> route) => false);
       }

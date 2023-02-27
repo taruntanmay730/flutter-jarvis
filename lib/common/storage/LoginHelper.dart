@@ -12,6 +12,12 @@ class LoginHelper extends BaseSharedPreference{
 
   static var instance = LoginHelper();
 
+  static Future<bool> logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("LoggedOut!");
+    return prefs.remove("loginObj");
+  }
+
   Future<void> saveLoginObject(String loginDetails) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("loginObj", loginDetails.toString());
@@ -32,5 +38,4 @@ class LoginHelper extends BaseSharedPreference{
       return false;
     }
   }
-
 }

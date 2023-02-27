@@ -2,39 +2,72 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:jarvis/analytics/BaseAnalyticsService.dart';
 import 'package:jarvis/common/Storage/LoginHelper.dart';
+import 'package:jarvis/analytics/google_sign_in.dart';
 import 'package:jarvis/login/controller/OTPController.dart';
 import 'package:jarvis/login/responses/OTPResponse.dart';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:jarvis/resources/HomePage.dart';
 import 'Home/HomeController.dart';
 import 'common/network/model/DioClient.dart';
 import 'common/network/resources/HttpErrors.dart';
 import 'common/network/responses/HttpResponse.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'resources/firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'package:google_sign_in_ios/google_sign_in_ios.dart';
+import 'package:google_sign_in_android/google_sign_in_android.dart';
+// import 'package:google_sign_in_web/google_sign_in_web.dart';
 
 
+// void main() => runApp(const MyApp());
 
-void main() => runApp(const MyApp());
-
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   static const String _title = 'Jarvis';
+  static FirebaseAnalytics analytics = BaseAnalyticsService.analytics;
+  static FirebaseAnalyticsObserver observer =
+  FirebaseAnalyticsObserver(analytics: analytics);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: _title,
+//       home: Scaffold(
+//         appBar: AppBar(title: const Text(_title)),
+//         body: const MyStatefulWidget(),
+//       ),
+//     );
+//   }
+// }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: _title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
-      ),
-    );
+    return ChangeNotifierProvider(
+      create: (context) => GoogleSignInProvider(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: _title,
+          home: Scaffold(
+            appBar: AppBar(title: const Text(_title)),
+            body:
+            const MyStatefulWidget(),
+          ),
+        ));
   }
 }
-
 
 
 class MyStatefulWidget extends StatefulWidget {
@@ -49,12 +82,22 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController phoneController = TextEditingController();
   OTPResponse? otpResponse;
+  final anlytics = BaseAnalyticsService.analytics;
 
-@override
+
+  @override
   void initState() {
-    checkLoginStatus();
     super.initState();
-}
+    firebaseInit();
+  }
+
+  Future<void> firebaseInit() async {
+    anlytics.setAnalyticsCollectionEnabled(true);
+    print("event configuration done.");
+    anlytics.logEvent(name: "TestHome", parameters: {"testparms":"testing"});
+    print("event sent");
+    checkLoginStatus();
+  }
 
   Future<void> checkLoginStatus() async {
     if (await LoginHelper.instance.isLoggedin()){
@@ -102,6 +145,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   },
                 )
             ),
+
+            Container(
+                padding: EdgeInsets.all(12),
+                child: ElevatedButton.icon(
+                    icon: FaIcon(FontAwesomeIcons.google, color: Colors.red,),
+                    onPressed: (){
+                      final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
+                      provider.googleLogin();
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                          HomePage()), (Route<dynamic> route) => false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black, backgroundColor: Colors.white,
+                        minimumSize: Size(double.infinity, 52)
+                    ),
+                    label: Text("Signup with google")
+                )
+            )
           ],
         ));
   }
@@ -109,7 +170,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   void sendOTP({required String id}) async {
     var baseUrl = DioClient.baseUrl;
     var apiUrl = "$baseUrl/consigner/v1/user/login/otp?number=$id";
-
+    const CircularProgressIndicator();
     try {
       Response userData = await DioClient.dio.get(apiUrl);
       otpResponse = OTPResponse.fromJson(userData.data);
