@@ -2,8 +2,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jarvis/analytics/google_sign_in.dart';
 import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/main.dart';
+import 'package:provider/provider.dart';
 
 class ProfileController extends StatefulWidget {
   const ProfileController({Key? key}) : super(key: key);
@@ -47,7 +49,10 @@ class _ProfileControllerState extends State<ProfileController> {
 
   Future<void> logoutListner() async {
     bool logout = await LoginHelper.logOut();
+    final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+
     if (logout == true){
+      provider.logout();
       print("logged out successfully!");
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
       const MyApp()), (Route<dynamic> route) => false);
