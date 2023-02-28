@@ -6,14 +6,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jarvis/Home/HomeController.dart';
+import 'package:jarvis/analytics/AnalyticsService.dart';
+import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/login/responses/LoginResponse.dart';
 
-//import '../../network/model/DioClient.dart';
 import '../../common/network/model/DioClient.dart';
 import '../../common/network/resources/HttpErrors.dart';
 import '../responses/OTPResponse.dart';
 import '../../common/network/responses/HttpResponse.dart';
-
+import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 
 class OTPController extends StatefulWidget {
   final String phNumber;
@@ -32,7 +33,50 @@ class _OTPControllerState extends State<OTPController> {
   var baseUrl = DioClient.baseUrl;
   OTPResponse? otpResponse;
   LoginResponse? loginResponse;
+  late List<String> otpSplit;
+  String _commingSms = 'Unknown';
+
   String otp = "";
+  String _otpCode = "";
+  final intRegex = RegExp(r'\d+', multiLine: true);
+
+  @override
+  void dispose() {
+    AltSmsAutofill().unregisterListener();
+    super.dispose();
+  }
+
+  Future<void> getOTP() async {
+    String? commingSms;
+    try {
+      commingSms = await AltSmsAutofill().listenForSms;
+
+    } on PlatformException {
+      commingSms = 'Failed to get Sms.';
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _commingSms = commingSms!;
+    });
+    _otpCode = _commingSms.replaceAll(new RegExp(r'[^0-9]'),'').substring(0,4);
+    otpSplit = _otpCode.split('');
+    firstOtpController.text = otpSplit[0];
+    secondOtpController.text = otpSplit[1];
+    thirdOtpController.text = otpSplit[2];
+    forthController.text = otpSplit[3];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    firstOtpController.text = "";
+    secondOtpController.text = "";
+    thirdOtpController.text = "";
+    forthController.text = "";
+    getOTP();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -229,23 +273,26 @@ class _OTPControllerState extends State<OTPController> {
     try {
       Response userData = await DioClient.dio.post(apiUrl, options: Options(headers: DioClient.requestHeader), data: jsonEncode(data));
       var respData = userData.data.toString();
-      print("login response received: $respData");
       loginResponse = LoginResponse.fromJson(userData.data as Map<String, dynamic>);
-      print("login response: $respData");
+      print("login response: $respData and token: $respData");
 
       if (respData != null){
-        Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomeController()),
-                (Route<dynamic> route) => false);
+        LoginHelper.instance.saveLoginObject(respData!);
+        AnalyticsService("Test_Tarun_Event");
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+            HomeController()), (Route<dynamic> route) => false);
       }
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        otpResponse = HttpResponse.getResponse(e.response);
-      } else {
-        // Error due to setting up or sending the request
-        otpResponse = HttpResponse.getResponse(e.response);
-      }
+      // if (e.response != null) {
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // } else {
+      //   // Error due to setting up or sending the request
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // }
+      otpResponse = HttpResponse.getResponse(e.response);
+
     } on SocketException{
       throw FetchDataException('No Internet connection');
     }
@@ -259,15 +306,18 @@ class _OTPControllerState extends State<OTPController> {
       String? message = otpResponse?.data.message as String;
       print("OTP send status: $message");
       otp = "";
+
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        otpResponse = HttpResponse.getResponse(e.response);
-      } else {
-        // Error due to setting up or sending the request
-        otpResponse = HttpResponse.getResponse(e.response);
-      }
+      // if (e.response != null) {
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // } else {
+      //   // Error due to setting up or sending the request
+      //   otpResponse = HttpResponse.getResponse(e.response);
+      // }
+      otpResponse = HttpResponse.getResponse(e.response);
+
     } on SocketException{
       throw FetchDataException('No Internet connection');
     }

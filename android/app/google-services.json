@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948128026655",
+    "project_id": "flutter-jarvis",
+    "storage_bucket": "flutter-jarvis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948128026655:android:4f4dc81e7f9ebdb9d1c52a",
+        "android_client_info": {
+          "package_name": "com.example.jarvis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948128026655-p1inlj8ce12sqsln543gi14jh58odhpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs3jfCcc3YD31kb_jX2fnR94Y9_a462EM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948128026655-p1inlj8ce12sqsln543gi14jh58odhpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

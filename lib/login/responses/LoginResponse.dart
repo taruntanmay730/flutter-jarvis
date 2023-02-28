@@ -16,11 +16,9 @@ class LoginResponse {
     data?.number = json["number"];
   }
 
-  Map<String, dynamic>? toJson() {
-    Map<String, dynamic>? data = new Map<String, dynamic>();
+  LoginResponse.toJson(Map<String, dynamic> data) {
     if (this.data != null) {
-      data = this.data?.toJson();
+      this.data = data as LoginModel;
     }
-    return data;
   }
 }
