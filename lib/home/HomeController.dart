@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:jarvis/Trips/TripsController.dart';
 
@@ -32,6 +34,8 @@ class _HomeControllerState extends State<HomeController> {
     return Scaffold(
       body: _screens.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        unselectedLabelStyle: TextStyle(fontFamily: 'Baloo2'),
+        selectedLabelStyle: TextStyle(fontFamily: 'Baloo2'),
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
@@ -44,7 +48,7 @@ class _HomeControllerState extends State<HomeController> {
           BottomNavigationBarItem(
               icon: Icon(Icons.search),
               backgroundColor: Colors.black12,
-              label: "My Trips"
+              label: "Search"
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),

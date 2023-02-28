@@ -25,7 +25,15 @@ class _DashboardControllerState extends State<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My YouTube Playlist!", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold))),
+      appBar: AppBar(title: Text(
+          "My YouTube Playlist",
+          style: TextStyle(
+              color: Colors.white70,
+              fontWeight: FontWeight.bold,
+            fontFamily: 'Baloo2'
+          )
+      )
+      ),
       body: Column(
         children: [
           Container(

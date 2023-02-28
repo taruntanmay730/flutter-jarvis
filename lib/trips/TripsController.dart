@@ -13,7 +13,7 @@ class _TripsControllerState extends State<TripsController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Trips!",
+          title: Text("My Orders",
             style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
           ),
         )
