@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:jarvis/analytics/BaseAnalyticsService.dart';
-import 'package:jarvis/common/Storage/LoginHelper.dart';
+import 'package:jarvis/common/Storage/UserPreferenceHelper.dart';
 import 'package:jarvis/login/responses/LoginModel.dart';
 
 class AnalyticsService{

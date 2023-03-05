@@ -38,10 +38,12 @@ dependencies:
   #  http: ^0.12.0
   dio: ^4.0.0
   json_annotation: ^4.0.1
+  google_maps_flutter_web: ^0.4.0+6
+  http: ^0.13.5
+  json_serializable: ^6.6.1
 
 dev_dependencies:
-  json_serializable: ^4.1.3
-  build_runner: ^2.0.4
+  build_runner: ^2.3.3
   alt_sms_autofill: ^1.0.0
   shared_preferences: ^2.0.17
   line_awesome_flutter: ^1.0.1
@@ -57,6 +59,14 @@ dev_dependencies:
   google_sign_in: ^5.0.3
   font_awesome_flutter: ^9.0.0
   provider: ^5.0.0
+  google_maps_flutter: ^2.0.4
+
+  flutter_polyline_points:
+  location: ^4.4.0
+  geocode:
+  google_directions_api:
+  google_maps_webservice:
+
 
   flutter_test:
     sdk: flutter

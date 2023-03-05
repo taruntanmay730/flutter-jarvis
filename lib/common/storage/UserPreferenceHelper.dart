@@ -1,16 +1,18 @@
 
+import 'dart:async';
+
 import 'package:jarvis/common/Storage/BaseSharedPreference.dart';
 import 'package:jarvis/login/responses/LoginModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:location/location.dart';
 
 enum Keys{
   loginObj
 }
 
-class LoginHelper extends BaseSharedPreference{
+class UserPreferenceHelper extends BaseSharedPreference{
 
-  static var instance = LoginHelper();
+  static var instance = UserPreferenceHelper();
 
   static Future<bool> logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

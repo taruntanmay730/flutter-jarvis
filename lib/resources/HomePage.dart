@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:jarvis/Account/ProfileController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jarvis/Home/HomeController.dart';
-import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/main.dart';
+
+import '../common/storage/UserPreferenceHelper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
           return Center(child: CircularProgressIndicator());
         }else if (snapshot.hasData){
           print("snapshot.hasData");
-          LoginHelper.instance.saveLoginObject(snapshot.hasData.toString());
+          UserPreferenceHelper.instance.saveLoginObject(snapshot.hasData.toString());
           return MyApp();
         }else if(snapshot.hasError){
           print("snapshot.hasError");

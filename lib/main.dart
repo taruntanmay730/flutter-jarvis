@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:jarvis/analytics/BaseAnalyticsService.dart';
-import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/analytics/google_sign_in.dart';
+import 'package:jarvis/common/storage/UserPreferenceHelper.dart';
 import 'package:jarvis/login/controller/OTPController.dart';
 import 'package:jarvis/login/responses/OTPResponse.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -100,7 +100,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   Future<void> checkLoginStatus() async {
-    if (await LoginHelper.instance.isLoggedin()){
+    if (await UserPreferenceHelper.instance.isLoggedin()){
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
           HomeController()), (Route<dynamic> route) => false);
     }

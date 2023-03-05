@@ -17,17 +17,17 @@ class _TripsControllerState extends State<TripsController> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: AppBar(title: Text("My Orders", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold))),
+          appBar: AppBar(title: const Text("My Orders", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold))),
           body: Column(
-            children: [
+            children: const [
               TabBar(
-                unselectedLabelColor: Colors.black26,
-                labelColor: Colors.black,
-                tabs: [
-                  Tab(text: "FasTag"),
-                  Tab(text: "GPS")
-                ],),
-              Expanded(child: TabBarView(children: [FastagDashboard(), GPSDashboard()]))
+                  isScrollable: false,
+                  unselectedLabelColor: Colors.black26,
+                  labelColor: Colors.black,
+                  tabs: [
+                    Tab(text: "FasTag"),Tab(text: "GPS"),
+                  ]),
+              Expanded(child: TabBarView(children: [FastagDashboard(),GPSDashboard()]))
             ],
           ),
         )

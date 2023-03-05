@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>MapApiKey</key>
+	<string>AIzaSyDBqWeX5EGdqeSAgOU4LkEOClGi-YL-s90</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -47,18 +49,26 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.948128026655-9cf672aqp26kbn3oov8rdcosop6r5gfh</string>
+			</array>
+		</dict>
+	</array>
     
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>The app needs location permission</string>
+    <key>io.flutter.embedded_views_preview</key><true/>
     
-    <key>CFBundleURLTypes</key>
+    <key>LSApplicationQueriesSchemes</key>
     <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.948128026655-9cf672aqp26kbn3oov8rdcosop6r5gfh</string>
-            </array>
-        </dict>
+        <string>googlechromes</string>
+        <string>comgooglemaps</string>
     </array>
 </dict>
 </plist>

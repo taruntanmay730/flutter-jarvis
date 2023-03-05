@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jarvis/Home/HomeController.dart';
 import 'package:jarvis/analytics/AnalyticsService.dart';
-import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/login/responses/LoginResponse.dart';
 
 import '../../common/network/model/DioClient.dart';
 import '../../common/network/resources/HttpErrors.dart';
+import '../../common/storage/UserPreferenceHelper.dart';
 import '../responses/OTPResponse.dart';
 import '../../common/network/responses/HttpResponse.dart';
 import 'package:alt_sms_autofill/alt_sms_autofill.dart';
@@ -277,7 +277,7 @@ class _OTPControllerState extends State<OTPController> {
       print("login response: $respData and token: $respData");
 
       if (respData != null){
-        LoginHelper.instance.saveLoginObject(respData!);
+        UserPreferenceHelper.instance.saveLoginObject(respData!);
         AnalyticsService("Test_Tarun_Event");
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
             HomeController()), (Route<dynamic> route) => false);
