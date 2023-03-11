@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jarvis/analytics/google_sign_in.dart';
 import 'package:jarvis/common/Storage/LoginHelper.dart';
 import 'package:jarvis/main.dart';
+import 'package:jarvis/resources/NativeCommunication.dart';
 import 'package:provider/provider.dart';
 
 class ProfileController extends StatefulWidget {
@@ -41,6 +42,21 @@ class _ProfileControllerState extends State<ProfileController> {
             ),
             SizedBox(height: 8),
             Text("Hello, " + (user?.displayName! ?? "User"), style: TextStyle(color: Colors.green, fontSize: 16)),
+            Container(
+              child: Column(
+                children: [
+                  SizedBox(height: 20,),
+                  ElevatedButton(
+                    onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => NativeCommunication())
+                      );
+                    },
+                    child: const Text('Chat'),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
